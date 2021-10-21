@@ -17,8 +17,6 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("test");
-        System.out.println("bruh");
         // Basic Setup for Selenium; add headless mode options here
         System.setProperty("webdriver.gecko.driver", "src/geckodriver.exe");
 
