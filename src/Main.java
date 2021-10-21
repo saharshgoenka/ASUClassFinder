@@ -107,15 +107,13 @@ public class Main {
                 System.out.println("------------------------------------------------------------");
 
 //                 Wait given milliseconds before rerunning program
-                try {
-                    Thread.sleep(10000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    Thread.sleep(10000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
             }
-
         }
-
     }
 
     // Plays byte sound
