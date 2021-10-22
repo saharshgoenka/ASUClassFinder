@@ -7,15 +7,17 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.SourceDataLine;
+// time imports
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+// util array imports
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
+
         // Basic Setup for Selenium; add headless mode options here
         System.setProperty("webdriver.gecko.driver", "src/geckodriver.exe");
 
@@ -55,9 +57,13 @@ public class Main {
 
                 // Finds the number of open seats for all classes taught by selected prof
                 List<WebElement> openSeats = driver.findElements(By.xpath(openSeatsXPath));
-
                 // Finds the times that the prof teaches the selected class
                 List<WebElement> classTimes = driver.findElements(By.xpath(classTimesXPath));
+
+                // Prints out current time
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                LocalDateTime now = LocalDateTime.now();
+                System.out.println(dtf.format(now));
 
                 // Prints out all class times along with number of open seats
                 System.out.println(classAbb + " " + classNumber + " is taught by " + teacherName + " at the following times:");
@@ -105,30 +111,16 @@ public class Main {
                 // Separates each loop run
                 System.out.println("------------------------------------------------------------");
 
-//                 Wait given milliseconds before rerunning program
+
+                // TODO: 10/21/2021 uncomment wait time; could result in potential ip ban
+                // Wait given milliseconds before rerunning program
 //                try {
-//                    Thread.sleep(10000);
+//                    Thread.sleep(5000);
 //                } catch (InterruptedException e) {
 //                    e.printStackTrace();
 //                }
             }
         }
-    }
-
-    // Plays byte sound
-    public static void music() throws LineUnavailableException {
-        byte[] buf = new byte[1];
-        AudioFormat af = new AudioFormat((float) 44100, 8, 1, true, false);
-        SourceDataLine sdl = AudioSystem.getSourceDataLine(af);
-        sdl.open();
-        sdl.start();
-        for (int i = 0; i < 1000 * (float) 44100 / 1000; i++) {
-            double angle = i / ((float) 44100 / 440) * 2.0 * Math.PI;
-            buf[0] = (byte) (Math.sin(angle) * 100);
-            sdl.write(buf, 0, 1);
-        }
-        sdl.drain();
-        sdl.stop();
     }
 
     public static void letsgo() {
@@ -139,6 +131,5 @@ public class Main {
                 "██║     ██╔══╝     ██║   ╚════██║    ██║   ██║██║   ██║╚═╝\n" +
                 "███████╗███████╗   ██║   ███████║    ╚██████╔╝╚██████╔╝██╗\n" +
                 "╚══════╝╚══════╝   ╚═╝   ╚══════╝     ╚═════╝  ╚═════╝ ╚═╝");
-
     }
 }
