@@ -10,7 +10,7 @@ public class DataReader {
 
         try {
 
-            String fileLocation = "src/bruh12.csv";
+            String fileLocation = "src/ClassData.csv";
             // find the file with the vehicle data.
             File CSVLocation = new File(fileLocation);
 
