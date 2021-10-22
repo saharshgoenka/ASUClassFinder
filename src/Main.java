@@ -1,5 +1,4 @@
 // selenium imports
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -28,22 +27,22 @@ public class Main {
         WebDriver driver = new FirefoxDriver(options);
 
         // Information that needs to be inputted by user
-        ArrayList<TrackingClass> str = DataReader.readData();
+        ArrayList<TrackingClass> classArrayList = DataReader.readData();
 
-        while(true) {
-            for (int i = 0; i < str.size(); i++) {
-                String classAbb = str.get(i).classAbb;
-                String classNumber = str.get(i).classNumber;
-                String teacherName = str.get(i).teacherName;
-                String wantedTime = str.get(i).wantedTime;
-                int reservedForOthers = str.get(i).reservedForOthers;
+        while (true) {
+            for (int i = 0; i < classArrayList.size(); i++) {
+                String classAbb = classArrayList.get(i).classAbb;
+                String classNumber = classArrayList.get(i).classNumber;
+                String teacherName = classArrayList.get(i).teacherName;
+                String wantedTime = classArrayList.get(i).wantedTime;
+                int reservedForOthers = classArrayList.get(i).reservedForOthers;
 
                 // Link and paths to elements being scraped
                 String siteLink = "https://webapp4.asu.edu/catalog/classlist?t=2221&s=" + classAbb + "&n=" + classNumber + "&hon=F&promod=F&e=all&page=1";
                 String openSeatsXPath = "//span[contains(text(), '" + teacherName + "')]/parent::a/parent::span/parent::span/parent::span/parent::span/parent::td/parent::tr/td[@class='availableSeatsColumnValue']/div/span[1]";
                 String classTimesXPath = "//span[contains(text(), '" + teacherName + "')]/parent::a/parent::span/parent::span/parent::span/parent::span/parent::td/parent::tr/td[@class=' startTimeDateColumnValue hide-column-for-online']";
 
-                // Will keep reloading the class page until there is an empty seat
+                // Will keep reloading the class page until there is an empty seat; currently loop never ends
                 //            boolean classOpen = false;
                 //            while (!classOpen) {
 
@@ -69,6 +68,7 @@ public class Main {
                     System.out.println(classTime + " : " + classSeats + " Seats Open" + " : " + reservedForOthers + " seats reserved for others");
                 }
 
+                // runs loop for each class specified in the .csv file
                 for (int k = 0; k < classTimes.size(); k++) {
                     String classTime = classTimes.get(k).getText();
                     String classSeats = openSeats.get(k).getText();
@@ -78,20 +78,19 @@ public class Main {
                     if (classTime.equals(wantedTime + " ") && classSeatsInt > reservedForOthers) {
                         System.out.println("Seats are available for " + teacherName + " at " + classTime);
 
+                        // prints success statement
+                        letsgo();
 
                         // plays music for open class
-                        letsgo();
-                        //                    playMusic("src/LetsGo.wav");
                         String filepath = "src/LetsGo.wav";
-
                         Music musicObject = new Music();
                         musicObject.playMusic(filepath);
 
-                        // Ends loop when class has empty seats
+                        // Ends loop when class has empty seats; currently never end loop
                         //                    classOpen = true;
 
 
-                        // Plays sound when class is open
+                        // Plays sound when class is open; replaced with actual music
                         //                    for (int q = 0; q < 10; q++) {
                         //                        try {
                         //                            music();
@@ -103,7 +102,7 @@ public class Main {
                     }
                 }
 
-
+                // Separates each loop run
                 System.out.println("------------------------------------------------------------");
 
 //                 Wait given milliseconds before rerunning program
@@ -140,5 +139,6 @@ public class Main {
                 "██║     ██╔══╝     ██║   ╚════██║    ██║   ██║██║   ██║╚═╝\n" +
                 "███████╗███████╗   ██║   ███████║    ╚██████╔╝╚██████╔╝██╗\n" +
                 "╚══════╝╚══════╝   ╚═╝   ╚══════╝     ╚═════╝  ╚═════╝ ╚═╝");
+
     }
 }
