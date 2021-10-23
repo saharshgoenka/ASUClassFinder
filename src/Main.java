@@ -52,7 +52,7 @@ public class Main {
                 driver.get(siteLink);
 
                 // Waits until the page elements have loaded
-                WebDriverWait wait = new WebDriverWait(driver, 30);
+                WebDriverWait wait = new WebDriverWait(driver,120);
                 wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(openSeatsXPath)));
 
                 // Finds the number of open seats for all classes taught by selected prof
@@ -97,13 +97,13 @@ public class Main {
 
 
                         // Plays sound when class is open; replaced with actual music
-                        //                    for (int q = 0; q < 10; q++) {
-                        //                        try {
-                        //                            music();
-                        //                        } catch (LineUnavailableException e) {
-                        //                            e.printStackTrace();
-                        //                        }
-                        //                    }
+//                                            for (int q = 0; q < 10; q++) {
+//                                                try {
+//                                                    music();
+//                                                } catch (LineUnavailableException e) {
+//                                                    e.printStackTrace();
+//                                                }
+//                                            }
 
                     }
                 }
@@ -114,11 +114,11 @@ public class Main {
 
                 // TODO: 10/21/2021 uncomment wait time; could result in potential ip ban
                 // Wait given milliseconds before rerunning program
-//                try {
-//                    Thread.sleep(5000);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
