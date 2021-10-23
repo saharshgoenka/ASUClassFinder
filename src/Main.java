@@ -90,8 +90,11 @@ public class Main {
                         // plays music for open class
                         String filepath = "src/LetsGo.wav";
                         Music musicObject = new Music();
-                        musicObject.playMusic(filepath);
+                        for(int a = 0; a < 100; a++){
+                            musicObject.playMusic(filepath);
+                        }
 
+                        System.out.println("Hello");
                         // Ends loop when class has empty seats; currently never end loop
                         //                    classOpen = true;
 
