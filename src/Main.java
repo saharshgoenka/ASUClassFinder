@@ -94,7 +94,6 @@ public class Main {
                             musicObject.playMusic(filepath);
                         }
 
-                        System.out.println("Hello");
                         // Ends loop when class has empty seats; currently never end loop
                         //                    classOpen = true;
 
