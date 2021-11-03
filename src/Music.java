@@ -12,7 +12,7 @@ class Music {
                 Clip clip = AudioSystem.getClip();
                 clip.open(audioInput);
                 clip.start();
-//                clip.loop(Clip.LOOP_CONTINUOUSLY);
+                clip.loop(Clip.LOOP_CONTINUOUSLY);
 
 //                JOptionPane.showMessageDialog(null, "Press OK to stop playing");
 
