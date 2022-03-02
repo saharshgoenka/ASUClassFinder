@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class DataReader {
-    public static ArrayList<TrackingClass> readData(){
+    public static ArrayList<ClassObject> readData(){
 
-        ArrayList<TrackingClass> str = new ArrayList<>();
+        ArrayList<ClassObject> str = new ArrayList<>();
 
         try {
 
@@ -33,7 +33,7 @@ public class DataReader {
                 int reservedForOthersInt = Integer.parseInt(reservedForOthers);
 
 
-                str.add(new TrackingClass(classAbb, classNumber, teacherName, wantedTime, reservedForOthersInt));
+                str.add(new ClassObject(classAbb, classNumber, teacherName, wantedTime, reservedForOthersInt));
             }
 
         } catch (FileNotFoundException e) {

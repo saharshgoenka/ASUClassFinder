@@ -7,11 +7,8 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-// time imports
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
-// util array imports
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +26,7 @@ public class Main {
         WebDriver driver = new FirefoxDriver(options);
 
         // Information that needs to be inputted by user
-        ArrayList<TrackingClass> classArrayList = DataReader.readData();
+        ArrayList<ClassObject> classArrayList = DataReader.readData();
 
         while (true) {
             for (int i = 0; i < classArrayList.size(); i++) {
@@ -40,7 +37,7 @@ public class Main {
                 int reservedForOthers = classArrayList.get(i).reservedForOthers;
 
                 // Link and paths to elements being scraped
-                String siteLink = "https://webapp4.asu.edu/catalog/classlist?t=2221&s=" + classAbb + "&n=" + classNumber + "&hon=F&promod=F&e=all&page=1";
+                String siteLink = "https://webapp4.asu.edu/catalog/classlist?t=2227&s=" + classAbb + "&n=" + classNumber + "&hon=F&promod=F&e=all&page=1";
                 String openSeatsXPath = "//span[contains(text(), '" + teacherName + "')]/parent::a/parent::span/parent::span/parent::span/parent::span/parent::td/parent::tr/td[@class='availableSeatsColumnValue']/div/span[1]";
                 String classTimesXPath = "//span[contains(text(), '" + teacherName + "')]/parent::a/parent::span/parent::span/parent::span/parent::span/parent::td/parent::tr/td[@class=' startTimeDateColumnValue hide-column-for-online']";
 
@@ -52,7 +49,7 @@ public class Main {
                 driver.get(siteLink);
 
                 // Waits until the page elements have loaded
-                WebDriverWait wait = new WebDriverWait(driver,120);
+                WebDriverWait wait = new WebDriverWait(driver, 120);
                 wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(openSeatsXPath)));
 
                 // Finds the number of open seats for all classes taught by selected prof
@@ -94,7 +91,6 @@ public class Main {
 
                         // Ends loop when class has empty seats; currently never end loop
                         //                    classOpen = true;
-
 
                         // Plays sound when class is open; replaced with actual music
 //                                            for (int q = 0; q < 10; q++) {

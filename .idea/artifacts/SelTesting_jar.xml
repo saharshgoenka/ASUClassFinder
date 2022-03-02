@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="SelTesting:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/SelTesting_jar</output-path>
+    <root id="archive" name="SelTesting.jar">
+      <element id="module-output" name="SelTesting" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/selenium-server-4.0.0.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
