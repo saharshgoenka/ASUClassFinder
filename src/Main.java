@@ -30,7 +30,7 @@ public class Main {
 
         while (true) {
             for (int i = 0; i < classArrayList.size(); i++) {
-                String classAbb = classArrayList.get(i).classAbb;
+                String classAbb = classArrayList.get(i).className;
                 String classNumber = classArrayList.get(i).classNumber;
                 String teacherName = classArrayList.get(i).teacherName;
                 String wantedTime = classArrayList.get(i).wantedTime;

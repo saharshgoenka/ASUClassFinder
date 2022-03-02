@@ -3,6 +3,8 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import java.io.File;
 
+// this file is no longer used to play music : now directly plays the .wav file
+
 class Music {
     void playMusic(String musicLocation){
         try{
