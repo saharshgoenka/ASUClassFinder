@@ -4,7 +4,6 @@ import javax.sound.sampled.Clip;
 import java.io.File;
 
 // Plays .wav files
-
 class Music {
     void playMusic(String musicLocation){
         try{
@@ -15,7 +14,6 @@ class Music {
                 clip.open(audioInput);
                 clip.start();
 //                clip.loop(Clip.LOOP_CONTINUOUSLY);
-
 
             } else {
                 System.out.println("Cant find file");
