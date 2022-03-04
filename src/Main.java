@@ -30,14 +30,14 @@ public class Main {
 
         while (true) {
             for (int i = 0; i < classArrayList.size(); i++) {
-                String classAbb = classArrayList.get(i).className;
+                String className = classArrayList.get(i).className;
                 String classNumber = classArrayList.get(i).classNumber;
                 String teacherName = classArrayList.get(i).teacherName;
                 String wantedTime = classArrayList.get(i).wantedTime;
                 int reservedForOthers = classArrayList.get(i).reservedForOthers;
 
                 // Link and paths to elements being scraped
-                String siteLink = "https://webapp4.asu.edu/catalog/classlist?t=2227&s=" + classAbb + "&n=" + classNumber + "&hon=F&promod=F&e=all&page=1";
+                String siteLink = "https://webapp4.asu.edu/catalog/classlist?t=2227&s=" + className + "&n=" + classNumber + "&hon=F&promod=F&e=all&page=1";
                 String openSeatsXPath = "//span[contains(text(), '" + teacherName + "')]/parent::a/parent::span/parent::span/parent::span/parent::span/parent::td/parent::tr/td[@class='availableSeatsColumnValue']/div/span[1]";
                 String classTimesXPath = "//span[contains(text(), '" + teacherName + "')]/parent::a/parent::span/parent::span/parent::span/parent::span/parent::td/parent::tr/td[@class=' startTimeDateColumnValue hide-column-for-online']";
 
@@ -63,7 +63,7 @@ public class Main {
                 System.out.println(dtf.format(now));
 
                 // Prints out all class times along with number of open seats
-                System.out.println(classAbb + " " + classNumber + " is taught by " + teacherName + " at the following times:");
+                System.out.println(className + " " + classNumber + " is taught by " + teacherName + " at the following times:");
                 for (int k = 0; k < classTimes.size(); k++) {
                     String classTime = classTimes.get(k).getText();
                     String classSeats = openSeats.get(k).getText();
