@@ -4,36 +4,37 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class DataReader {
-    public static ArrayList<ClassObject> readData(){
+    public static ArrayList<classInfoObject> readData(){
 
-        ArrayList<ClassObject> str = new ArrayList<>();
+        ArrayList<classInfoObject> str = new ArrayList<>();
 
         try {
 
             String fileLocation = "src/ClassData.csv";
-            // find the file with the vehicle data.
-            File CSVLocation = new File(fileLocation);
+            // find the file with the class data.
+            File CSVFileLocation = new File(fileLocation);
 
             // use a scanner that will read from the file.
-            Scanner inventoryScanner = new Scanner(CSVLocation);
+            Scanner lineScanner = new Scanner(CSVFileLocation);
 
-            while(inventoryScanner.hasNextLine()) {
+            while(lineScanner.hasNextLine()) {
                 // read a line from the file.
-                String nextLine = inventoryScanner.nextLine();
+                String nextLine = lineScanner.nextLine();
 
                 // split the file into parts.
-                String[] vehicleComponents = nextLine.split(",");
+                String[] classInfoComponents = nextLine.split(",");
 
                 // get the components of our vehicle.
-                String classAbb = vehicleComponents[0];
-                String classNumber = vehicleComponents[1];
-                String teacherName = vehicleComponents[2];
-                String wantedTime = vehicleComponents[3];
-                String reservedForOthers = vehicleComponents[4];
+                String classAbb = classInfoComponents[0];
+                String classNumber = classInfoComponents[1];
+                String teacherName = classInfoComponents[2];
+                String wantedTime = classInfoComponents[3];
+                String classID = classInfoComponents[5];
+                String reservedForOthers = classInfoComponents[4];
+
                 int reservedForOthersInt = Integer.parseInt(reservedForOthers);
 
-
-                str.add(new ClassObject(classAbb, classNumber, teacherName, wantedTime, reservedForOthersInt));
+                str.add(new classInfoObject(classAbb, classNumber, teacherName, wantedTime, reservedForOthersInt, classID));
             }
 
         } catch (FileNotFoundException e) {

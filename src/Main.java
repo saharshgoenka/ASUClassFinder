@@ -1,4 +1,3 @@
-// selenium imports
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,12 +9,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
 
-        // Basic Setup for Selenium; add headless mode options here
+        // Basic Setup for Selenium
         System.setProperty("webdriver.gecko.driver", "src/geckodriver.exe");
 
         // Headless mode options
@@ -26,24 +24,20 @@ public class Main {
         WebDriver driver = new FirefoxDriver(options);
 
         // Information that needs to be inputted by user
-        ArrayList<ClassObject> classArrayList = DataReader.readData();
+        ArrayList<classInfoObject> classArrayList = DataReader.readData();
 
         while (true) {
-            for (int i = 0; i < classArrayList.size(); i++) {
-                String className = classArrayList.get(i).className;
-                String classNumber = classArrayList.get(i).classNumber;
-                String teacherName = classArrayList.get(i).teacherName;
-                String wantedTime = classArrayList.get(i).wantedTime;
-                int reservedForOthers = classArrayList.get(i).reservedForOthers;
+            for (classInfoObject classInfoObject : classArrayList) {
+                String className = classInfoObject.className;
+                String classNumber = classInfoObject.classNumber;
+                String teacherName = classInfoObject.teacherName;
+                String wantedTime = classInfoObject.wantedTime;
+                int reservedForOthers = classInfoObject.reservedForOthers;
+                String classID = classInfoObject.classID;
 
-                // Link and paths to elements being scraped
-                String siteLink = "https://webapp4.asu.edu/catalog/classlist?t=2227&s=" + className + "&n=" + classNumber + "&hon=F&promod=F&e=all&page=1";
-                String openSeatsXPath = "//span[contains(text(), '" + teacherName + "')]/parent::a/parent::span/parent::span/parent::span/parent::span/parent::td/parent::tr/td[@class='availableSeatsColumnValue']/div/span[1]";
-                String classTimesXPath = "//span[contains(text(), '" + teacherName + "')]/parent::a/parent::span/parent::span/parent::span/parent::span/parent::td/parent::tr/td[@class=' startTimeDateColumnValue hide-column-for-online']";
-
-                // Will keep reloading the class page until there is an empty seat; currently loop never ends
-                //            boolean classOpen = false;
-                //            while (!classOpen) {
+                // Link and paths to element being scraped
+                String siteLink = "https://webapp4.asu.edu/catalog/classlist?t=2227&k=" + classID + "&hon=F&promod=F&e=all&page=1";
+                String openSeatsXPath = "//*[@Class='availableSeatsColumnValue']/div/span";
 
                 // Opens the class search page
                 driver.get(siteLink);
@@ -53,79 +47,50 @@ public class Main {
                 wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(openSeatsXPath)));
 
                 // Finds the number of open seats for all classes taught by selected prof
-                List<WebElement> openSeats = driver.findElements(By.xpath(openSeatsXPath));
-                // Finds the times that the prof teaches the selected class
-                List<WebElement> classTimes = driver.findElements(By.xpath(classTimesXPath));
+                WebElement openSeats = driver.findElement(By.xpath(openSeatsXPath));
 
-                // Prints out current time
-                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-                LocalDateTime now = LocalDateTime.now();
-                System.out.println(dtf.format(now));
+                String classSeats = openSeats.getText();
+                System.out.println(teacherName + " has " + classSeats + " seats open at " + wantedTime + " " + className + " " + classNumber);
 
-                // Prints out all class times along with number of open seats
-                System.out.println(className + " " + classNumber + " is taught by " + teacherName + " at the following times:");
-                for (int k = 0; k < classTimes.size(); k++) {
-                    String classTime = classTimes.get(k).getText();
-                    String classSeats = openSeats.get(k).getText();
+                // checks if user's class has open seats
+                if (Integer.parseInt(classSeats) > reservedForOthers) {
+                    System.out.println("Seats are available for " + teacherName);
 
-                    System.out.println(classTime + " : " + classSeats + " Seats Open" + " : " + reservedForOthers + " seats reserved for others");
-                }
+                    // prints success statement
+                    letsgo();
 
-                // runs loop for each class specified in the .csv file
-                for (int k = 0; k < classTimes.size(); k++) {
-                    String classTime = classTimes.get(k).getText();
-                    String classSeats = openSeats.get(k).getText();
-                    int classSeatsInt = Integer.parseInt(classSeats);
-
-                    // Condition checks if user's class has open seats
-                    if (classTime.equals(wantedTime + " ") && classSeatsInt > reservedForOthers) {
-                        System.out.println("Seats are available for " + teacherName + " at " + classTime);
-
-                        // prints success statement
-                        letsgo();
-
-                        // plays music for open class
-                        String filepath = "src/LetsGo.wav";
-                        Music musicObject = new Music();
-                        musicObject.playMusic(filepath);
-
-                        // Ends loop when class has empty seats; currently never end loop
-                        //                    classOpen = true;
-
-                        // Plays sound when class is open; replaced with actual music
-//                                            for (int q = 0; q < 10; q++) {
-//                                                try {
-//                                                    music();
-//                                                } catch (LineUnavailableException e) {
-//                                                    e.printStackTrace();
-//                                                }
-//                                            }
-
-                    }
-                }
-
-                // Separates each loop run
-                System.out.println("------------------------------------------------------------");
-
-
-                // TODO: 10/21/2021 uncomment wait time; could result in potential ip ban
-                // Wait given milliseconds before rerunning program
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    // plays music for open class
+                    String filepath = "src/LetsGo.wav";
+                    Music musicObject = new Music();
+                    musicObject.playMusic(filepath);
                 }
             }
+
+            System.out.println("------------------------------------------------------------");
+
+            // Prints out current time
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+            LocalDateTime now = LocalDateTime.now();
+            System.out.println(dtf.format(now));
+
+            // Wait given milliseconds before rerunning program
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
     public static void letsgo() {
-        System.out.println("\n" +
-                "██╗     ███████╗████████╗███████╗     ██████╗  ██████╗ ██╗\n" +
-                "██║     ██╔════╝╚══██╔══╝██╔════╝    ██╔════╝ ██╔═══██╗██║\n" +
-                "██║     █████╗     ██║   ███████╗    ██║  ███╗██║   ██║██║\n" +
-                "██║     ██╔══╝     ██║   ╚════██║    ██║   ██║██║   ██║╚═╝\n" +
-                "███████╗███████╗   ██║   ███████║    ╚██████╔╝╚██████╔╝██╗\n" +
-                "╚══════╝╚══════╝   ╚═╝   ╚══════╝     ╚═════╝  ╚═════╝ ╚═╝");
+        System.out.println("""
+
+                ██╗     ███████╗████████╗███████╗     ██████╗  ██████╗ ██╗
+                ██║     ██╔════╝╚══██╔══╝██╔════╝    ██╔════╝ ██╔═══██╗██║
+                ██║     █████╗     ██║   ███████╗    ██║  ███╗██║   ██║██║
+                ██║     ██╔══╝     ██║   ╚════██║    ██║   ██║██║   ██║╚═╝
+                ███████╗███████╗   ██║   ███████║    ╚██████╔╝╚██████╔╝██╗
+                ╚══════╝╚══════╝   ╚═╝   ╚══════╝     ╚═════╝  ╚═════╝ ╚═╝""");
     }
 }
