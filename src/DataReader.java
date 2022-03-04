@@ -32,9 +32,7 @@ public class DataReader {
                 String classID = classInfoComponents[5];
                 String reservedForOthers = classInfoComponents[4];
 
-                int reservedForOthersInt = Integer.parseInt(reservedForOthers);
-
-                str.add(new classInfoObject(classAbb, classNumber, teacherName, wantedTime, reservedForOthersInt, classID));
+                str.add(new classInfoObject(classAbb, classNumber, teacherName, wantedTime, reservedForOthers, classID));
             }
 
         } catch (FileNotFoundException e) {

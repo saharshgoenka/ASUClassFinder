@@ -33,7 +33,7 @@ public class Main {
                 String classNumber = classInfoObject.classNumber;
                 String teacherName = classInfoObject.teacherName;
                 String wantedTime = classInfoObject.wantedTime;
-                int reservedForOthers = classInfoObject.reservedForOthers;
+                String reservedForOthers = classInfoObject.reservedForOthers;
                 String classID = classInfoObject.classID;
 
                 // Link and paths to element being scraped
@@ -54,7 +54,7 @@ public class Main {
                 System.out.println(teacherName + " has " + classSeats + " seats open at " + wantedTime + " " + className + " " + classNumber);
 
                 // checks if user's class has open seats
-                if (Integer.parseInt(classSeats) > reservedForOthers) {
+                if (Integer.parseInt(classSeats) > Integer.parseInt(reservedForOthers)) {
 
                     // prints success statement
                     letsgo();
