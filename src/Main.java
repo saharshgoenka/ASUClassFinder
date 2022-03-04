@@ -6,6 +6,7 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class Main {
                 driver.get(siteLink);
 
                 // Waits until the page elements have loaded
-                WebDriverWait wait = new WebDriverWait(driver, 120);
+                WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
                 wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(openSeatsXPath)));
 
                 // Finds the number of open seats for all classes taught by selected prof
@@ -54,15 +55,14 @@ public class Main {
 
                 // checks if user's class has open seats
                 if (Integer.parseInt(classSeats) > reservedForOthers) {
-                    System.out.println("Seats are available for " + teacherName);
 
                     // prints success statement
                     letsgo();
+                    System.out.println("Seats are available for " + teacherName);
 
                     // plays music for open class
-                    String filepath = "src/LetsGo.wav";
                     Music musicObject = new Music();
-                    musicObject.playMusic(filepath);
+                    musicObject.playMusic("src/LetsGo.wav");
                 }
             }
 
@@ -79,7 +79,6 @@ public class Main {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
         }
     }
 
